@@ -5,7 +5,7 @@ set -eu
 # Forbid spaces in indents.
 ################################################################################
 
-readonly DEBUG=${DEBUG:-unset}
+readonly DEBUG="${DEBUG:-unset}"
 if [ "${DEBUG}" != unset ]; then
 	set -x
 fi
