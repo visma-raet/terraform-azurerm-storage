@@ -1,6 +1,6 @@
 variable "create_resource_group" {
   description = "Whether to create resource group and use it for all networking resources"
-  default     = false
+  default     = true
 }
 
 variable "resource_group_name" {
@@ -15,7 +15,7 @@ variable "location" {
 
 variable "storage_account_name" {
   description = "The name of the azure storage account"
-  default     = ""
+  default     = "demostorageaccount"
 }
 
 variable "account_kind" {
