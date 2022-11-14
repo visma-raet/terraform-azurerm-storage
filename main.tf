@@ -18,7 +18,7 @@ data "azurerm_resource_group" "rgrp" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  #ts:skip=accurics.azure.NS.272 RSG lock should be skipped for now.
+  #ts:skip=AC_AZURE_0389 RSG lock should be skipped for now.
   count    = var.create_resource_group ? 1 : 0
   name     = lower(var.resource_group_name)
   location = var.location
@@ -30,16 +30,16 @@ resource "azurerm_resource_group" "rg" {
 #----------------------------------------------------------
 #tfsec:ignore:AZU012
 resource "azurerm_storage_account" "storeacc" {
-  name                      = var.storage_account_name
-  resource_group_name       = local.resource_group_name
-  location                  = local.location
-  account_kind              = var.account_kind
-  account_tier              = local.account_tier
-  account_replication_type  = local.account_replication_type
-  min_tls_version           = "TLS1_2"
-  enable_https_traffic_only = true
-  allow_blob_public_access  = var.enable_advanced_threat_protection == true ? true : false
-  tags                      = var.tags
+  name                              = var.storage_account_name
+  resource_group_name               = local.resource_group_name
+  location                          = local.location
+  account_kind                      = var.account_kind
+  account_tier                      = local.account_tier
+  account_replication_type          = local.account_replication_type
+  min_tls_version                   = "TLS1_2"
+  enable_https_traffic_only         = true
+  allow_nested_items_to_be_public   = var.enable_advanced_threat_protection == true ? true : false
+  tags                              = var.tags
 
   blob_properties {
     versioning_enabled = true
@@ -134,4 +134,21 @@ resource "azurerm_storage_management_policy" "lcpolicy" {
       }
     }
   }
+}
+
+provider "azurerm" {
+  features {
+    log_analytics_workspace {
+      permanently_delete_on_destroy = true
+    }
+    resource_group {
+      prevent_deletion_if_contains_resources = true
+    }
+    key_vault {
+      purge_soft_delete_on_destroy               = true
+      purge_soft_deleted_secrets_on_destroy      = true
+      purge_soft_deleted_certificates_on_destroy = true
+    }
+  }
+  skip_provider_registration = true
 }
