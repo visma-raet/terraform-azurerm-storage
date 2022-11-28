@@ -30,16 +30,16 @@ resource "azurerm_resource_group" "rg" {
 #----------------------------------------------------------
 #tfsec:ignore:AZU012
 resource "azurerm_storage_account" "storeacc" {
-  name                              = var.storage_account_name
-  resource_group_name               = local.resource_group_name
-  location                          = local.location
-  account_kind                      = var.account_kind
-  account_tier                      = local.account_tier
-  account_replication_type          = local.account_replication_type
-  min_tls_version                   = "TLS1_2"
-  enable_https_traffic_only         = true
-  allow_nested_items_to_be_public   = var.enable_advanced_threat_protection == true ? true : false
-  tags                              = var.tags
+  name                            = var.storage_account_name
+  resource_group_name             = local.resource_group_name
+  location                        = local.location
+  account_kind                    = var.account_kind
+  account_tier                    = local.account_tier
+  account_replication_type        = local.account_replication_type
+  min_tls_version                 = "TLS1_2"
+  enable_https_traffic_only       = true
+  allow_nested_items_to_be_public = var.enable_advanced_threat_protection == true ? true : false
+  tags                            = var.tags
 
   blob_properties {
     versioning_enabled = true
